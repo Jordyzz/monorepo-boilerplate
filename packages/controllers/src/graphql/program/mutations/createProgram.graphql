@@ -1,0 +1,5 @@
+mutation CreateProgram($title: String!, $programDetails: ProgramInput!) {
+  createProgram(title: $title, programDetails: $programDetails) {
+    id
+  }
+}

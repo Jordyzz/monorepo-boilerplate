@@ -1,0 +1,12 @@
+query programs {
+  programs {
+    id
+    authorId
+    title
+    updatedAt
+    programDetails {
+      type
+      description
+    }
+  }
+}

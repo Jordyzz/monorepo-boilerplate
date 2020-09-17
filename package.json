@@ -1,0 +1,37 @@
+{
+  "name": "monorepo-main",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/expo",
+      "**/expo/**",
+      "**/@react-navigation",
+      "**/@react-navigation/**",
+      "**/react-native-gesture-handler",
+      "**/react-native-gesture-handler/**",
+      "**/react-native-reanimated",
+      "**/react-native-reanimated/**",
+      "**/react-native-redash",
+      "**/react-native-redash/**",
+      "**/react-native-svg/",
+      "**/react-native-svg/**"
+    ]
+  },
+  "scripts": {
+    "test": "lerna run test",
+    "new-version": "lerna version --conventional-commits --yes",
+    "diff": "lerna diff",
+    "postinstall": "cd ./packages/app && expo-yarn-workspaces postinstall"
+  },
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  },
+  "dependencies": {
+    "metro-config": "^0.56.0"
+  }
+}

@@ -1,0 +1,12 @@
+query program($programId: Int!) {
+  program(programId: $programId) {
+    id
+    title
+    createdAt
+    updatedAt
+    programDetails {
+      type
+      description
+    }
+  }
+}
