@@ -18,10 +18,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-const Button = ({ label, variant = "default", onPress }: ButtonProps) => {
+const Button = ({
+  label,
+  variant = "default",
+  onPress,
+  children,
+}: ButtonProps) => {
   const backgroundColor =
     variant === "primary"
-      ? themeService.theme.colors.secondary
+      ? themeService.theme.colors.primary
       : variant === "transparent"
       ? "transparent"
       : themeService.theme.colors.grey;
@@ -35,7 +40,11 @@ const Button = ({ label, variant = "default", onPress }: ButtonProps) => {
       style={[styles.container, { backgroundColor }]}
       {...{ onPress }}
     >
-      <Text style={[styles.label, { color }]}>{label}</Text>
+      {children ? (
+        children
+      ) : (
+        <Text style={[styles.label, { color }]}>{label}</Text>
+      )}
     </RectButton>
   );
 };

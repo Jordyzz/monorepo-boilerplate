@@ -1,16 +1,25 @@
 import React from "react";
-import { View, StyleSheet, Image, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Dimensions,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import { ContainerProps } from "./Container.interface";
 import { themeService } from "../../core/ThemeService";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export const assets = [require("../../../assets/patterns/pattern1.png")];
-const { width } = Dimensions.get("window");
+const { width, height: wHeight } = Dimensions.get("window");
 const aspectRatio = 750 / 1125;
 const height = width * aspectRatio;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: wHeight,
     backgroundColor: themeService.theme.colors.secondary,
   },
   imageContainer: {
@@ -31,37 +40,42 @@ const styles = StyleSheet.create({
   },
   footer: {
     backgroundColor: themeService.theme.colors.secondary,
-    height: 100,
+    padding: themeService.theme.spacing.m,
   },
 });
 
 const Container = ({ children, footer }: ContainerProps) => {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
-      <View style={{ backgroundColor: themeService.theme.colors.white }}>
-        <View style={styles.imageContainer}>
+    <KeyboardAwareScrollView>
+      <View style={styles.container}>
+        <View style={{ backgroundColor: themeService.theme.colors.white }}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={assets[0]}
+              style={{ width, height, borderBottomLeftRadius: 75 }}
+            />
+          </View>
+        </View>
+        <View style={styles.contentContainer}>
           <Image
             source={assets[0]}
-            style={{ width, height, borderBottomLeftRadius: 75 }}
+            style={{
+              ...StyleSheet.absoluteFillObject,
+              width,
+              height,
+              top: -height * 0.61,
+              backgroundColor: themeService.theme.colors.white,
+            }}
           />
+          <ScrollView style={styles.content}>{children}</ScrollView>
+          <View style={styles.footer}>
+            {footer}
+            <View style={{ height: insets.bottom }} />
+          </View>
         </View>
       </View>
-      <View style={styles.contentContainer}>
-        <Image
-          source={assets[0]}
-          style={{
-            ...StyleSheet.absoluteFillObject,
-            width,
-            height,
-            top: -height * 0.61,
-            backgroundColor: themeService.theme.colors.white,
-          }}
-        />
-
-        <View style={styles.content}>{children}</View>
-        <View style={styles.footer}>{footer}</View>
-      </View>
-    </View>
+    </KeyboardAwareScrollView>
   );
 };
 

@@ -3,6 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 import Button from "../../components/Button";
 import { StackNavigationProps, Routes } from "../../utils/Navigation";
 import { themeService } from "../../core/ThemeService";
+import { useNavigation } from "@react-navigation/native";
 
 const styles = StyleSheet.create({
   container: {

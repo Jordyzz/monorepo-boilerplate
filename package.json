@@ -18,8 +18,12 @@
       "**/react-native-reanimated/**",
       "**/react-native-redash",
       "**/react-native-redash/**",
-      "**/react-native-svg/",
-      "**/react-native-svg/**"
+      "**/react-native-svg",
+      "**/react-native-svg/**",
+      "**/formik",
+      "**/formik/**",
+      "**/react-native-keyboard-aware-scroll-view",
+      "**/react-native-keyboard-aware-scroll-view/**"
     ]
   },
   "scripts": {
