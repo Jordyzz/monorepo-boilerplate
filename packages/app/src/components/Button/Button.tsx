@@ -27,8 +27,6 @@ const Button = ({
   const backgroundColor =
     variant === "primary"
       ? themeService.theme.colors.primary
-      : variant === "transparent"
-      ? "transparent"
       : themeService.theme.colors.grey;
   const color =
     variant === "primary"

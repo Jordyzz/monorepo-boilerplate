@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { Feather as Icon } from "@expo/vector-icons";
+import { BorderlessButton } from "react-native-gesture-handler";
 
 import { CheckboxProps } from "./Checkbox.interface";
 import { themeService } from "../../../core/ThemeService";
-import { RectButton } from "react-native-gesture-handler";
 
 const { white, primary } = themeService.theme.colors;
 
@@ -28,7 +28,10 @@ const styles = StyleSheet.create({
 
 const Checkbox = ({ label, checked, onChange }: CheckboxProps) => {
   return (
-    <RectButton style={{ justifyContent: "center" }} onPress={() => onChange()}>
+    <BorderlessButton
+      style={{ justifyContent: "center" }}
+      onPress={() => onChange()}
+    >
       <View style={styles.container}>
         <View
           style={[
@@ -40,7 +43,7 @@ const Checkbox = ({ label, checked, onChange }: CheckboxProps) => {
         </View>
         <Text>{label}</Text>
       </View>
-    </RectButton>
+    </BorderlessButton>
   );
 };
 

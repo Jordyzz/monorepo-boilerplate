@@ -11,8 +11,8 @@ import Button from "../../components/Button";
 import { themeService } from "../../core/ThemeService";
 import TextInput from "../../components/Forms/TextInput";
 import Checkbox from "../../components/Forms/Checkbox";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProps, Routes } from "../../utils/Navigation";
+import { AuthNavigationProps } from "../../utils/Navigation";
+import { BorderlessButton } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   btnBox: {
     alignItems: "center",
-    marginTop: 25,
+    marginTop: 24,
   },
 });
 
@@ -43,7 +43,7 @@ const LoginSchema = Yup.object().shape({
   remember: Yup.boolean().default(true),
 });
 
-const Login = ({ navigation }: StackNavigationProps<Routes, "Login">) => {
+const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
   const passwordRef = useRef<RNTextInput>(null);
   const {
     handleChange,
@@ -55,12 +55,13 @@ const Login = ({ navigation }: StackNavigationProps<Routes, "Login">) => {
     setFieldValue,
   } = useFormik({
     initialValues: { email: "", password: "", remember: true },
-    onSubmit: (values) => console.log(values),
+    onSubmit: (values) => navigation.navigate("Home"),
     validationSchema: LoginSchema,
   });
 
   return (
     <Container
+      pattern={0}
       footer={
         <Footer
           title="Don't have an account?"
@@ -108,6 +109,8 @@ const Login = ({ navigation }: StackNavigationProps<Routes, "Login">) => {
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
+            marginVertical: themeService.theme.spacing.m,
+            alignItems: "center",
           }}
         >
           <Checkbox
@@ -115,14 +118,13 @@ const Login = ({ navigation }: StackNavigationProps<Routes, "Login">) => {
             checked={values.remember}
             onChange={() => setFieldValue("remember", !values.remember)}
           />
-          <Button
-            variant="transparent"
+          <BorderlessButton
             onPress={() => navigation.navigate("ForgotPassword")}
           >
             <Text style={{ color: themeService.theme.colors.primary }}>
               Forgot password
             </Text>
-          </Button>
+          </BorderlessButton>
         </View>
         <View style={styles.btnBox}>
           <Button

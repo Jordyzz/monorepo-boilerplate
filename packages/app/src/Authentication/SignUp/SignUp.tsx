@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { View, StyleSheet, Text, TextInput as RNTextInput } from "react-native";
 import * as Yup from "yup";
 
-import { StackNavigationProps, Routes } from "../../utils/Navigation";
+import { AuthNavigationProps } from "../../utils/Navigation";
 import { useFormik } from "formik";
 import Container from "../../components/Container";
 import Footer from "../../components/Footer";
@@ -44,7 +44,7 @@ const SignUpSchema = Yup.object().shape({
   lastName: Yup.string().min(2).max(15).required(),
 });
 
-const SignUp = ({ navigation }: StackNavigationProps<Routes, "SignUp">) => {
+const SignUp = ({ navigation }: AuthNavigationProps<"SignUp">) => {
   const firstRef = useRef<RNTextInput>(null);
   const lastRef = useRef<RNTextInput>(null);
   const passwordRef = useRef<RNTextInput>(null);
@@ -72,6 +72,7 @@ const SignUp = ({ navigation }: StackNavigationProps<Routes, "SignUp">) => {
 
   return (
     <Container
+      pattern={0}
       footer={
         <Footer
           title="Already have an account? "

@@ -12,6 +12,8 @@
       "**/expo/**",
       "**/@react-navigation",
       "**/@react-navigation/**",
+      "**/@react-navigation/drawer",
+      "**/@react-navigation/drawer/**",
       "**/react-native-gesture-handler",
       "**/react-native-gesture-handler/**",
       "**/react-native-reanimated",

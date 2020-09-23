@@ -3,6 +3,7 @@ import { View, StyleSheet, TextInput as RNTextInput } from "react-native";
 import { Feather as Icon } from "@expo/vector-icons";
 import { TextInputProps } from "./TextInput.interface";
 import { themeService } from "../../../core/ThemeService";
+import RoundedIcon from "../../RoundedIcon";
 
 const styles = StyleSheet.create({
   container: {
@@ -41,9 +42,12 @@ const TextInput = forwardRef<RNTextInput, TextInputProps>(
           />
         </View>
         {touched && (
-          <View style={[styles.validatorIcon, { backgroundColor: color }]}>
-            <Icon name={!error ? "check" : "x"} color="white" size={16} />
-          </View>
+          <RoundedIcon
+            name={!error ? "check" : "x"}
+            color="white"
+            size={24}
+            backgroundColor={color}
+          />
         )}
       </View>
     );

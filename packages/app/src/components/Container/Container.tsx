@@ -12,7 +12,9 @@ import { themeService } from "../../core/ThemeService";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export const assets = [require("../../../assets/patterns/pattern1.png")];
+export const assets = [
+  require("../../../assets/patterns/pattern1.png"),
+] as const;
 const { width, height: wHeight } = Dimensions.get("window");
 const aspectRatio = 750 / 1125;
 const height = width * aspectRatio;
@@ -44,22 +46,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const Container = ({ children, footer }: ContainerProps) => {
+const Container = ({ children, footer, pattern }: ContainerProps) => {
   const insets = useSafeAreaInsets();
+  const asset = assets[pattern];
+
   return (
     <KeyboardAwareScrollView>
       <View style={styles.container}>
         <View style={{ backgroundColor: themeService.theme.colors.white }}>
           <View style={styles.imageContainer}>
             <Image
-              source={assets[0]}
+              source={asset}
               style={{ width, height, borderBottomLeftRadius: 75 }}
             />
           </View>
         </View>
         <View style={styles.contentContainer}>
           <Image
-            source={assets[0]}
+            source={asset}
             style={{
               ...StyleSheet.absoluteFillObject,
               width,

@@ -1,9 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 import Button from "../../components/Button";
-import { StackNavigationProps, Routes } from "../../utils/Navigation";
+import { AuthNavigationProps } from "../../utils/Navigation";
 import { themeService } from "../../core/ThemeService";
 import { useNavigation } from "@react-navigation/native";
+import { BorderlessButton } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   container: {
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Welcome = ({ navigation }: StackNavigationProps<Routes, "Welcome">) => {
+const Welcome = ({ navigation }: AuthNavigationProps<"Welcome">) => {
   return (
     <View style={styles.container}>
       <View style={styles.topSection}></View>
@@ -68,12 +69,18 @@ const Welcome = ({ navigation }: StackNavigationProps<Routes, "Welcome">) => {
             label="Have an account? Login"
             onPress={() => navigation.navigate("Login")}
           />
-          <Button variant="default" label="Register" onPress={() => {}} />
           <Button
-            variant="transparent"
-            label="Forgot password?"
-            onPress={() => {}}
+            variant="default"
+            label="Register"
+            onPress={() => navigation.navigate("SignUp")}
           />
+          <BorderlessButton
+            onPress={() => navigation.navigate("ForgotPassword")}
+          >
+            <Text style={{ color: themeService.theme.colors.secondary }}>
+              Forgot password?
+            </Text>
+          </BorderlessButton>
         </View>
       </View>
     </View>

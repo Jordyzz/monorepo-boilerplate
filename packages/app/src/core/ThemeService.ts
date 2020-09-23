@@ -2,6 +2,7 @@ class ThemeService {
   public theme = {
     colors: {
       primary: "#2cb9b0",
+      primaryLight: "#E7F9F7",
       secondary: "#0c0d34",
       white: "#fff",
       grey: "rgba(12, 13, 52, 0.05)",
@@ -41,7 +42,7 @@ class ThemeService {
       button: {
         fontSize: 15,
         fontFamily: "SFProText-Regular",
-        textAlign: "center",
+        color: "rgba(12, 13, 52, 0.7)",
       },
     },
   };
