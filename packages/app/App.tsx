@@ -1,6 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import LoadAssets from "./src/components/LoadAssets";
 import { AuthenticationNavigator } from "./src/Authentication";
@@ -15,18 +16,26 @@ const fonts = {
 
 const AppStack = createStackNavigator<AppRoutes>();
 
+const client = new ApolloClient({
+  uri: "http://10.0.0.8:4000/graphql",
+  credentials: "include",
+  cache: new InMemoryCache(),
+});
+
 export default function App() {
   return (
-    <LoadAssets {...{ fonts }}>
-      <SafeAreaProvider>
-        <AppStack.Navigator headerMode="none">
-          <AppStack.Screen
-            name="Authentication"
-            component={AuthenticationNavigator}
-          />
-          <AppStack.Screen name="Home" component={HomeNavigator} />
-        </AppStack.Navigator>
-      </SafeAreaProvider>
-    </LoadAssets>
+    <ApolloProvider {...{ client }}>
+      <LoadAssets {...{ fonts }}>
+        <SafeAreaProvider>
+          <AppStack.Navigator headerMode="none">
+            <AppStack.Screen
+              name="Authentication"
+              component={AuthenticationNavigator}
+            />
+            <AppStack.Screen name="Home" component={HomeNavigator} />
+          </AppStack.Navigator>
+        </SafeAreaProvider>
+      </LoadAssets>
+    </ApolloProvider>
   );
 }

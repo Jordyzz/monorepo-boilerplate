@@ -1,12 +1,14 @@
 import React from "react";
 import { Formik, Field } from "formik";
 
+import { useLoginMutation, MeDocument, MeQuery } from "@tango/controllers";
+
+import { withApollo } from "../utils/withApollo";
 import Layout from "../components/Layout";
 import { InputField } from "../components/fields/InputField";
 import { useRouter } from "next/router";
-import { useLoginMutation, MeDocument, MeQuery } from "@tango/controllers";
 
-export default () => {
+const Login = () => {
   const router = useRouter();
   const [login] = useLoginMutation();
   return (
@@ -62,3 +64,5 @@ export default () => {
     </Layout>
   );
 };
+
+export default withApollo({ ssr: false })(Login);

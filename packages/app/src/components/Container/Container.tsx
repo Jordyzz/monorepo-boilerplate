@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     overflow: "hidden",
+    justifyContent: "center",
   },
   content: {
     borderRadius: 75,
@@ -72,7 +73,7 @@ const Container = ({ children, footer, pattern }: ContainerProps) => {
               backgroundColor: themeService.theme.colors.white,
             }}
           />
-          <ScrollView style={styles.content}>{children}</ScrollView>
+          <View style={styles.content}>{children}</View>
           <View style={styles.footer}>
             {footer}
             <View style={{ height: insets.bottom }} />

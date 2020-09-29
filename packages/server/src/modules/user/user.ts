@@ -13,7 +13,7 @@ import { RegisterInput } from "./register/RegisterInput";
 import { isAuth } from "../middleware/isAuth";
 import { logger } from "../middleware/logger";
 import { sendEmail } from "../utils/sendEmail";
-import { createConfirmationUrl } from "../utils/createConfirmationUrl";
+import { createConfirmationToken } from "../utils/createConfirmationToken";
 import { AppContext } from "../../types/AppContext";
 import {
   forgotPasswordPrefix,
@@ -47,7 +47,7 @@ export class UserResolver {
       } as User)
     ).save();
 
-    await sendEmail(email, await createConfirmationUrl(user._id, redis));
+    await sendEmail(email, await createConfirmationToken(user._id, redis));
 
     return user;
   }
@@ -98,7 +98,7 @@ export class UserResolver {
     @Arg("email") email: string,
     @Ctx() { redis }: AppContext
   ): Promise<boolean> {
-    const user = await UserModel.findOne({ where: { email } });
+    const user = await UserModel.findOne({ email });
 
     if (!user) {
       return false;
@@ -107,10 +107,7 @@ export class UserResolver {
     const token = v4();
     await redis.set(forgotPasswordPrefix + token, user.id, "ex", 60 * 60 * 24); // 1 day expiration
 
-    await sendEmail(
-      email,
-      `http://localhost:3000/user/change-password/${token}`
-    );
+    await sendEmail(email, token);
 
     return true;
   }
@@ -138,10 +135,9 @@ export class UserResolver {
     @Ctx() { req, redis }: AppContext
   ): Promise<User | null> {
     const userId = await redis.get(forgotPasswordPrefix + token);
-
     if (!userId) return null;
 
-    const user = await UserModel.findOne({ userId });
+    const user = await UserModel.findById(userId);
 
     if (!user) return null;
 

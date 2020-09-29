@@ -64,7 +64,11 @@ const initApolloClient = (apolloClient, initialState, ctx) => {
 
   // Reuse client on the client-side
   if (!globalApolloClient) {
-    globalApolloClient = createApolloClient(apolloClient, initialState, ctx);
+    globalApolloClient = createApolloClient(
+      apolloClient(ctx),
+      initialState,
+      ctx
+    );
   }
 
   return globalApolloClient;

@@ -12,10 +12,13 @@ const styles = StyleSheet.create({
   container: {
     padding: 34,
     alignItems: "center",
+    flex: 1,
+    justifyContent: "center",
   },
   title: {
     ...themeService.theme.textVariants.title1,
     marginBottom: themeService.theme.spacing.l,
+    marginTop: themeService.theme.spacing.l,
     textAlign: "center",
   },
   subtitle: {
@@ -52,25 +55,24 @@ const PasswordChanged = ({ navigation }: AuthNavigationProps<"SignUp">) => {
       }
     >
       <View style={styles.container}>
-        <View style={styles.icon}>
-          <RoundedIcon
-            name="check"
-            size={80}
-            backgroundColor={themeService.theme.colors.primaryLight}
-            color={themeService.theme.colors.primary}
-          />
-        </View>
+        <RoundedIcon
+          name="check"
+          size={80}
+          backgroundColor={themeService.theme.colors.primaryLight}
+          color={themeService.theme.colors.primary}
+        />
+
         <Text style={styles.title}>
           Your password has been successfully changed
         </Text>
         <Text style={styles.subtitle}>You can now login to your account</Text>
-      </View>
-      <View style={styles.btnBox}>
-        <Button
-          variant="primary"
-          onPress={() => navigation.navigate("Login")}
-          label="Log into your account"
-        />
+        <View style={styles.btnBox}>
+          <Button
+            variant="primary"
+            onPress={() => navigation.navigate("Login")}
+            label="Log into your account"
+          />
+        </View>
       </View>
     </Container>
   );

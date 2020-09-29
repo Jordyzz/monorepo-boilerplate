@@ -6,6 +6,7 @@ class ThemeService {
       secondary: "#0c0d34",
       white: "#fff",
       grey: "rgba(12, 13, 52, 0.05)",
+      lightGrey: "#fafafa",
       darkGrey: "#8a8d90",
       danger: "#ff0058",
       text: "rgba(12, 13, 52, 0.7)",

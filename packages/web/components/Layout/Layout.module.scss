@@ -1,3 +1,43 @@
-.color {
-  color: red;
+.appContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background-color: var(--backgroundPrimary);
+  padding: 1.5rem;
+
+  .navContainer {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 100%;
+    background-color: var(--backgroundPrimary);
+    color: var(--fontPrimary);
+
+    .navbar {
+      display: flex;
+      flex-direction: column;
+      padding-right: 2rem;
+
+      .logo {
+        width: 80%;
+        height: 40px;
+        margin: 2rem 0;
+      }
+    }
+  }
+
+  .content {
+    flex: 1;
+    padding: 2rem;
+    background-color: var(--backgroundSecondary);
+    border-radius: 50px;
+    -webkit-box-shadow: -12px 13px 32px -22px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: -12px 13px 32px -22px rgba(0, 0, 0, 0.1);
+    box-shadow: -12px 13px 32px -22px rgba(0, 0, 0, 0.1);
+  }
+
+  .subContent {
+    width: 350px;
+    padding: 3rem;
+  }
 }

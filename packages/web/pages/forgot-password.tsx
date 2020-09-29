@@ -5,8 +5,9 @@ import Layout from "../components/Layout";
 import { InputField } from "../components/fields/InputField";
 import { useRouter } from "next/router";
 import { useForgotPasswordMutation } from "@tango/controllers";
+import { withApollo } from "../utils/withApollo";
 
-export default () => {
+const ForgotPassword = () => {
   const router = useRouter();
   const [forgotPassword] = useForgotPasswordMutation();
 
@@ -35,3 +36,5 @@ export default () => {
     </Layout>
   );
 };
+
+export default withApollo({ ssr: false })(ForgotPassword);

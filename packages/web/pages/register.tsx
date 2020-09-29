@@ -13,7 +13,7 @@ const Register = () => {
   console.log(register);
 
   return (
-    <Layout title="Register page">
+    <Layout title="Register">
       <Formik
         validateOnBlur={false}
         validateOnChange={false}

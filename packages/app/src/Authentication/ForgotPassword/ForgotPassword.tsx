@@ -9,10 +9,13 @@ import Footer from "../../components/Footer";
 import Button from "../../components/Button";
 import TextInput from "../../components/Forms/TextInput";
 import { themeService } from "../../core/ThemeService";
+import { useForgotPasswordMutation } from "@tango/controllers";
 
 const styles = StyleSheet.create({
   container: {
     padding: 34,
+    flex: 1,
+    justifyContent: "center",
   },
   title: {
     ...themeService.theme.textVariants.title1,
@@ -37,10 +40,17 @@ const ForgotPasswordSchema = Yup.object().shape({
 const ForgotPassword = ({
   navigation,
 }: AuthNavigationProps<"ForgotPassword">) => {
+  const [forgotPassword] = useForgotPasswordMutation();
   const { handleChange, handleBlur, handleSubmit, errors, touched } = useFormik(
     {
       initialValues: { email: "" },
-      onSubmit: () => navigation.navigate("PasswordChanged"),
+      onSubmit: async (values) => {
+        const res = await forgotPassword({
+          variables: values,
+        });
+
+        res && res.data?.forgotPassword && navigation.navigate("ResetPassword");
+      },
       validationSchema: ForgotPasswordSchema,
     }
   );

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Layout from "../components/Layout";
+import { withApollo } from "../utils/withApollo";
 
 const AboutPage = () => (
   <Layout title="About | Next.js + TypeScript Example">
@@ -13,4 +14,4 @@ const AboutPage = () => (
   </Layout>
 );
 
-export default AboutPage;
+export default withApollo({ ssr: false })(AboutPage);

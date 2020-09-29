@@ -1,9 +1,10 @@
 import Link from "next/link";
 
 import Layout from "../components/Layout";
+import { withApollo } from "../utils/withApollo";
 
 const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
+  <Layout title="CoderJam">
     <h1>Hello Next.js 👋</h1>
     <p>
       <Link href="/about">
@@ -13,4 +14,4 @@ const IndexPage = () => (
   </Layout>
 );
 
-export default IndexPage;
+export default withApollo({ ssr: true })(IndexPage);

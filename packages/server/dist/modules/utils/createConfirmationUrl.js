@@ -9,12 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createConfirmationUrl = void 0;
+exports.createConfirmationToken = void 0;
 const uuid_1 = require("uuid");
 const redisPrefixes_1 = require("../constants/redisPrefixes");
-exports.createConfirmationUrl = (userId, redis) => __awaiter(void 0, void 0, void 0, function* () {
+exports.createConfirmationToken = (userId, redis) => __awaiter(void 0, void 0, void 0, function* () {
     const token = uuid_1.v4();
     yield redis.set(redisPrefixes_1.confirmationPrefix + token, userId, "ex", 60 * 60 * 24);
-    return `http://localhost:3000/user/confirm/${token}`;
+    return token;
 });
 //# sourceMappingURL=createConfirmationUrl.js.map

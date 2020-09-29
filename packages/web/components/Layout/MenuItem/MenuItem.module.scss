@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  align-items: center;
+  height: 60px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+
+  .label {
+    margin-left: 1rem;
+  }
+
+  .activeArrow {
+    margin-left: auto;
+  }
+}
+
+.activeContainer {
+  background-color: var(--primary);
+  border-radius: 15px;
+
+  color: #fff;
+
+  & > div > svg > path,
+  & > div > svg > g > path,
+  & > div > svg > circle,
+  & > div > svg > g > circle {
+    fill: #fff;
+  }
+}
+
+.title {
+  margin-top: 2rem;
+  padding: 2rem 0;
+  font-family: "SFProText-Semibold";
+}

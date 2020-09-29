@@ -1,24 +1,31 @@
 import React from "react";
 import { View, StyleSheet, Image, Dimensions, Text } from "react-native";
+import { useApolloClient } from "@apollo/client";
+import { useNavigation, DrawerActions } from "@react-navigation/native";
+import {
+  DrawerContentComponentProps,
+  DrawerContentOptions,
+} from "@react-navigation/drawer";
 
+import { MeDocument } from "@tango/controllers";
 import { themeService } from "../../core/ThemeService";
 import DrawerItem from "./DrawerItem";
 import { DrawerItemProps } from "./DrawerItem/DrawerItem.interface";
-import RoundedIconButton from "../../components/RoundedIconButton";
+import Header from "../../components/Header";
 
 const { width } = Dimensions.get("window");
 export const DRAWER_WIDTH = width * 0.8;
 const aspectRatio = 750 / 1125;
 const height = DRAWER_WIDTH * aspectRatio;
 
-const { white, primary, secondary, primaryLight } = themeService.theme.colors;
+const { white, primary, secondary } = themeService.theme.colors;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   smallContainer: {
-    flex: 0.15,
+    flex: 0.18,
     backgroundColor: white,
   },
   content: {
@@ -32,11 +39,11 @@ const styles = StyleSheet.create({
   profileIcon: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: primary,
-    left: DRAWER_WIDTH / 2 - 50,
-    top: -50,
+    left: DRAWER_WIDTH / 2 - 40,
+    top: -40,
     borderRadius: 50,
-    width: 100,
-    height: 100,
+    width: 80,
+    height: 80,
     alignSelf: "center",
   },
 });
@@ -80,7 +87,16 @@ const items: Array<DrawerItemProps> = [
   },
 ];
 
-const Drawer = () => {
+const Drawer = ({}: DrawerContentComponentProps<DrawerContentOptions>) => {
+  const navigation = useNavigation();
+  const apolloClient = useApolloClient();
+
+  const {
+    me: { email, name },
+  } = apolloClient.readQuery({ query: MeDocument }) || {
+    me: { email: "", name: "" },
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.smallContainer}>
@@ -89,30 +105,19 @@ const Drawer = () => {
             ...StyleSheet.absoluteFillObject,
             borderBottomRightRadius: 75,
             backgroundColor: secondary,
-            flexDirection: "row",
-            paddingTop: 22,
-            justifyContent: "space-between",
-            paddingHorizontal: themeService.theme.spacing.m,
           }}
         >
-          <RoundedIconButton
-            name="x"
-            size={24}
-            color={white}
-            backgroundColor={secondary}
-            onPress={() => true}
-          />
-          <Text style={{ fontSize: 13, color: white }}>MY PROFILE</Text>
-          <RoundedIconButton
-            name="x"
-            size={24}
-            color={secondary}
-            backgroundColor={secondary}
-            onPress={() => true}
+          <Header
+            title="MY PROFILE"
+            left={{
+              icon: "x",
+              onPress: () => navigation.dispatch(DrawerActions.closeDrawer),
+            }}
+            dark
           />
         </View>
       </View>
-      <View style={{ flex: 0.85 }}>
+      <View style={{ flex: 0.82 }}>
         <View
           style={{
             flex: 1,
@@ -122,19 +127,8 @@ const Drawer = () => {
         <View
           style={{
             flex: 1,
-            backgroundColor: primaryLight,
+            backgroundColor: secondary,
           }}
-        />
-        <Image
-          style={{
-            position: "absolute",
-            bottom: -height * 0.5,
-            left: 0,
-            right: 0,
-            width: DRAWER_WIDTH,
-            height,
-          }}
-          source={require("../../../assets/patterns/pattern1.png")}
         />
         <View style={styles.content}>
           <View style={styles.profileIcon} />
@@ -145,7 +139,7 @@ const Drawer = () => {
                 textAlign: "center",
               }}
             >
-              Yarden Sagi
+              {name}
             </Text>
             <Text
               style={{
@@ -153,7 +147,7 @@ const Drawer = () => {
                 textAlign: "center",
               }}
             >
-              joe@gmail.com
+              {email}
             </Text>
           </View>
           {items.map((item) => (
@@ -165,7 +159,7 @@ const Drawer = () => {
         style={{
           backgroundColor: white,
           width: DRAWER_WIDTH,
-          height: height * 0.5,
+          height: height * 0.48,
           overflow: "hidden",
         }}
       >
@@ -174,6 +168,7 @@ const Drawer = () => {
             ...StyleSheet.absoluteFillObject,
             width: undefined,
             height: undefined,
+            borderTopLeftRadius: 75,
           }}
           source={require("../../../assets/patterns/pattern1.png")}
         />

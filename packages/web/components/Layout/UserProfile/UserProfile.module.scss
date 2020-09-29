@@ -1,0 +1,25 @@
+.container {
+  margin-top: auto;
+  margin-bottom: 1rem;
+}
+
+.profilePicture {
+  background-image: url("https://cdn.pixabay.com/photo/2017/06/13/12/54/profile-2398783_960_720.png");
+  width: 30px;
+  height: 30px;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: all ease-in 0.2s;
+}
+
+.userDetails {
+  display: flex;
+  align-items: center;
+}
+
+.userName {
+  visibility: visible;
+  white-space: nowrap;
+  margin-left: 10px;
+}

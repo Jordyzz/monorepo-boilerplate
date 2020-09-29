@@ -32,7 +32,7 @@ const RegisterInput_1 = require("./register/RegisterInput");
 const isAuth_1 = require("../middleware/isAuth");
 const logger_1 = require("../middleware/logger");
 const sendEmail_1 = require("../utils/sendEmail");
-const createConfirmationUrl_1 = require("../utils/createConfirmationUrl");
+const createConfirmationToken_1 = require("../utils/createConfirmationToken");
 const redisPrefixes_1 = require("../constants/redisPrefixes");
 const uuid_1 = require("uuid");
 const changePasswordInput_1 = require("./changePassword/changePasswordInput");
@@ -53,7 +53,7 @@ let UserResolver = class UserResolver {
                 email,
                 password: hashedPassword,
             })).save();
-            yield sendEmail_1.sendEmail(email, yield createConfirmationUrl_1.createConfirmationUrl(user._id, redis));
+            yield sendEmail_1.sendEmail(email, yield createConfirmationToken_1.createConfirmationToken(user._id, redis));
             return user;
         });
     }
@@ -88,13 +88,13 @@ let UserResolver = class UserResolver {
     }
     forgotPassword(email, { redis }) {
         return __awaiter(this, void 0, void 0, function* () {
-            const user = yield User_1.UserModel.findOne({ where: { email } });
+            const user = yield User_1.UserModel.findOne({ email });
             if (!user) {
                 return false;
             }
             const token = uuid_1.v4();
             yield redis.set(redisPrefixes_1.forgotPasswordPrefix + token, user.id, "ex", 60 * 60 * 24);
-            yield sendEmail_1.sendEmail(email, `http://localhost:3000/user/change-password/${token}`);
+            yield sendEmail_1.sendEmail(email, token);
             return true;
         });
     }
@@ -114,7 +114,7 @@ let UserResolver = class UserResolver {
             const userId = yield redis.get(redisPrefixes_1.forgotPasswordPrefix + token);
             if (!userId)
                 return null;
-            const user = yield User_1.UserModel.findOne({ userId });
+            const user = yield User_1.UserModel.findById(userId);
             if (!user)
                 return null;
             yield redis.del(redisPrefixes_1.forgotPasswordPrefix + token);

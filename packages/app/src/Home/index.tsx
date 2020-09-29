@@ -8,7 +8,7 @@ import { HomeRoutes } from "../utils/Navigation";
 const Drawer = createDrawerNavigator<HomeRoutes>();
 export const HomeNavigator = () => (
   <Drawer.Navigator
-    drawerContent={DrawerContent}
+    drawerContent={(props) => <DrawerContent {...props} />}
     drawerStyle={{ width: DRAWER_WIDTH }}
   >
     <Drawer.Screen name="Programs" component={Programs} />

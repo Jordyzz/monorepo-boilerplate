@@ -1,9 +1,9 @@
-import React, { useRef, ReactNode } from "react";
+import React, { useRef, useState } from "react";
 import { View, Text, StyleSheet, TextInput as RNTextInput } from "react-native";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { useLoginMutation } from "@tango/controllers"; // TODO: install apollo finish login
+import { useLoginMutation, MeQuery, MeDocument } from "@tango/controllers";
 
 import Footer from "../../components/Footer";
 import Container from "../../components/Container";
@@ -17,6 +17,8 @@ import { BorderlessButton } from "react-native-gesture-handler";
 const styles = StyleSheet.create({
   container: {
     padding: 34,
+    flex: 1,
+    justifyContent: "center",
   },
   title: {
     ...themeService.theme.textVariants.title1,
@@ -44,6 +46,7 @@ const LoginSchema = Yup.object().shape({
 });
 
 const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
+  const [login] = useLoginMutation();
   const passwordRef = useRef<RNTextInput>(null);
   const {
     handleChange,
@@ -55,7 +58,33 @@ const Login = ({ navigation }: AuthNavigationProps<"Login">) => {
     setFieldValue,
   } = useFormik({
     initialValues: { email: "", password: "", remember: true },
-    onSubmit: (values) => navigation.navigate("Home"),
+    onSubmit: async (values, { setErrors }) => {
+      const res = await login({
+        variables: values,
+        update: (cache, { data }) => {
+          if (!data || !data.login) {
+            return;
+          }
+
+          cache.writeQuery<MeQuery>({
+            query: MeDocument,
+            data: {
+              __typename: "Query",
+              me: data.login,
+            },
+          });
+        },
+      });
+
+      if (res && res.data && !res.data.login) {
+        setErrors({
+          email: "invalid login",
+        });
+        return;
+      }
+
+      navigation.navigate("Home");
+    },
     validationSchema: LoginSchema,
   });
 

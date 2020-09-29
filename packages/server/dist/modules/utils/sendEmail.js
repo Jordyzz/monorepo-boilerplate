@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sendEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
-function sendEmail(email, url) {
+function sendEmail(email, key) {
     return __awaiter(this, void 0, void 0, function* () {
         let testAccount = yield nodemailer_1.default.createTestAccount();
         const transporter = nodemailer_1.default.createTransport({
@@ -31,7 +31,7 @@ function sendEmail(email, url) {
             to: email,
             subject: "Hello ✔",
             text: "Hello world?",
-            html: `<a href="${url}">${url}</a>`,
+            html: `<h1>key: ${key}</h1>`,
         });
         console.log("Message sent: %s", info.messageId);
         console.log("Preview URL: %s", nodemailer_1.default.getTestMessageUrl(info));

@@ -2,6 +2,8 @@ import React, { useRef } from "react";
 import { View, StyleSheet, Text, TextInput as RNTextInput } from "react-native";
 import * as Yup from "yup";
 
+import { useRegisterMutation } from "@tango/controllers";
+
 import { AuthNavigationProps } from "../../utils/Navigation";
 import { useFormik } from "formik";
 import Container from "../../components/Container";
@@ -13,6 +15,8 @@ import { themeService } from "../../core/ThemeService";
 const styles = StyleSheet.create({
   container: {
     padding: 34,
+    flex: 1,
+    justifyContent: "center",
   },
   title: {
     ...themeService.theme.textVariants.title1,
@@ -45,6 +49,7 @@ const SignUpSchema = Yup.object().shape({
 });
 
 const SignUp = ({ navigation }: AuthNavigationProps<"SignUp">) => {
+  const [register] = useRegisterMutation();
   const firstRef = useRef<RNTextInput>(null);
   const lastRef = useRef<RNTextInput>(null);
   const passwordRef = useRef<RNTextInput>(null);
@@ -66,7 +71,27 @@ const SignUp = ({ navigation }: AuthNavigationProps<"SignUp">) => {
       password: "",
       confirmPassword: "",
     },
-    onSubmit: (values) => console.log(values),
+    onSubmit: async ({ ["confirmPassword"]: _, ...data }, { setErrors }) => {
+      try {
+        await register({
+          variables: {
+            data,
+          },
+        });
+
+        navigation.navigate("AccountConfirmation");
+      } catch (err) {
+        const errors: any = {};
+        err.graphQLErrors[0].extensions.exception.validationErrors.forEach(
+          (validationErr: { constraints: Array<any>; property: string }) => {
+            Object.values(validationErr.constraints).forEach((message) => {
+              errors[validationErr.property] = message;
+            });
+          }
+        );
+        setErrors(errors);
+      }
+    },
     validationSchema: SignUpSchema,
   });
 
