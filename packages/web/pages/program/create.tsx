@@ -5,7 +5,17 @@ import { useFormik } from "formik";
 import Layout from "../../components/Layout";
 
 const CreateProgram = () => {
-  const formik = useFormik({});
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      language: "",
+      duration: "",
+      level: "",
+      chapters: [],
+    },
+    onSubmit: (values) => console.log(values),
+  });
 
   return (
     <Layout title="Create Program">

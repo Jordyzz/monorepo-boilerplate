@@ -8,6 +8,7 @@ class ThemeService {
       secondary: "#000",
       fontPrimary: "#607489",
       fontSecondary: "#C9C9CB",
+      white: "#fff",
     },
     dark: {
       primary: "#6266EA",
@@ -17,6 +18,7 @@ class ThemeService {
       secondary: "#000",
       fontPrimary: "#607489",
       fontSecondary: "#C9C9CB",
+      white: "#fff",
     },
     colors: {},
   };
@@ -29,6 +31,7 @@ class ThemeService {
     secondary: null,
     fontPrimary: null,
     fontSecondary: null,
+    white: null,
   };
 
   init(type?: keyof ThemeService["themes"]) {

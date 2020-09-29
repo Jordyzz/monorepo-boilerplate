@@ -6,6 +6,7 @@ import { InputField } from "../components/fields/InputField";
 import { useRegisterMutation } from "@tango/controllers";
 import { useRouter } from "next/router";
 import { withApollo } from "../utils/withApollo";
+import Button from "../components/Button";
 
 const Register = () => {
   const router = useRouter();
@@ -64,7 +65,9 @@ const Register = () => {
               type="password"
               component={InputField}
             />
-            <button type="submit">Submit</button>
+            <Button type="submit" onClick={handleSubmit}>
+              Submit
+            </Button>
           </form>
         )}
       </Formik>
