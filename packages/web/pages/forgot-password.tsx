@@ -2,10 +2,11 @@ import React from "react";
 import { Formik, Field } from "formik";
 
 import Layout from "../components/Layout";
-import { InputField } from "../components/fields/InputField";
+import InputField from "../components/Forms/InputField";
 import { useRouter } from "next/router";
 import { useForgotPasswordMutation } from "@tango/controllers";
 import { withApollo } from "../utils/withApollo";
+import Button from "../components/Button";
 
 const ForgotPassword = () => {
   const router = useRouter();
@@ -28,8 +29,8 @@ const ForgotPassword = () => {
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <Field name="email" placeholder="Email" component={InputField} />
-            <button type="submit">forgot password</button>
+            <InputField name="email" placeholder="Email" label="Email" />
+            <Button type="submit">Reset Password</Button>
           </form>
         )}
       </Formik>

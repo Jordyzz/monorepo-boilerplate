@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  background-color: var(--secondaryLight);
+  padding: 2rem;
+  border-radius: 15px;
+  margin-bottom: 1rem;
+  justify-content: space-around;
+
+  .questionFields {
+    width: 50%;
+  }
+
+  .optionFields {
+    width: 50%;
+  }
+}

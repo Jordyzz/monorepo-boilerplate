@@ -31,9 +31,25 @@
     padding: 2rem;
     background-color: var(--backgroundSecondary);
     border-radius: 50px;
+    overflow-y: scroll;
     -webkit-box-shadow: -12px 13px 32px -22px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: -12px 13px 32px -22px rgba(0, 0, 0, 0.1);
     box-shadow: -12px 13px 32px -22px rgba(0, 0, 0, 0.1);
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--primaryLight);
+      border-radius: 30px;
+    }
+
+    &::-webkit-scrollbar {
+      width: 10px;
+      background-color: #f5f5f5;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 30px;
+    }
   }
 
   .subContent {

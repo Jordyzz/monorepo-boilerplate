@@ -1,12 +1,13 @@
 import React from "react";
-import { Formik, Field } from "formik";
+import { Formik } from "formik";
+import { useRouter } from "next/router";
 
 import { useLoginMutation, MeDocument, MeQuery } from "@tango/controllers";
 
 import { withApollo } from "../utils/withApollo";
 import Layout from "../components/Layout";
-import { InputField } from "../components/fields/InputField";
-import { useRouter } from "next/router";
+import InputField from "../components/Forms/InputField";
+import Button from "../components/Button";
 
 const Login = () => {
   const router = useRouter();
@@ -50,14 +51,14 @@ const Login = () => {
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <Field name="email" placeholder="Email" component={InputField} />
-            <Field
+            <InputField name="email" placeholder="Email" label="Email" />
+            <InputField
               name="password"
               placeholder="Password"
+              label="Password"
               type="password"
-              component={InputField}
             />
-            <button type="submit">Submit</button>
+            <Button type="submit">Login</Button>
           </form>
         )}
       </Formik>

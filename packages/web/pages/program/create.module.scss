@@ -1,0 +1,44 @@
+.title {
+  font-family: "SFProText-Bold";
+  color: #000;
+  font-size: 42px;
+  margin: 2rem;
+}
+
+.description {
+  width: 500px;
+  height: 100px;
+}
+
+.selectContainer {
+  display: flex;
+
+  .select {
+    margin-right: 1rem;
+    width: 300px;
+  }
+}
+
+.chapterList {
+  margin-bottom: 2rem;
+  .chaptersHeader {
+    margin: 3rem;
+    font-family: "SFProText-Bold";
+    font-size: 32px;
+  }
+
+  .emptyChapter {
+    border: 1px dashed var(--primary);
+    border-radius: 15px;
+    padding: 0.7rem;
+
+    .addChapter {
+      margin-left: auto;
+    }
+  }
+}
+
+.submitBtn {
+  width: 100px;
+  height: 50px;
+}

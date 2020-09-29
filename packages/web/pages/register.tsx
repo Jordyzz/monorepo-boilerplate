@@ -1,8 +1,8 @@
 import React from "react";
-import { Formik, Field } from "formik";
+import { Formik } from "formik";
 
 import Layout from "../components/Layout";
-import { InputField } from "../components/fields/InputField";
+import InputField from "../components/Forms/InputField";
 import { useRegisterMutation } from "@tango/controllers";
 import { useRouter } from "next/router";
 import { withApollo } from "../utils/withApollo";
@@ -48,22 +48,27 @@ const Register = () => {
       >
         {({ handleSubmit }) => (
           <form onSubmit={handleSubmit}>
-            <Field
+            <InputField
               name="firstName"
               placeholder="First name"
-              component={InputField}
+              label="First name"
             />
-            <Field
+            <InputField
               name="lastName"
               placeholder="Last name"
-              component={InputField}
+              label="Last name"
             />
-            <Field name="email" placeholder="Email" component={InputField} />
-            <Field
+            <InputField
+              name="email"
+              placeholder="Email"
+              label="Email"
+              type="email"
+            />
+            <InputField
               name="password"
               placeholder="Password"
+              label="Password"
               type="password"
-              component={InputField}
             />
             <Button type="submit" onClick={handleSubmit}>
               Submit

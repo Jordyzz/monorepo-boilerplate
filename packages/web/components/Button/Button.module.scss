@@ -9,9 +9,10 @@
   line-height: 0;
   justify-content: space-around;
   align-items: center;
-  width: 80px;
+  min-width: 80px;
   height: 40px;
   padding: 1rem;
+  cursor: pointer;
 
   &:focus {
     outline: none;

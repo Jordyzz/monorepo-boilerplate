@@ -1,0 +1,25 @@
+.container {
+  margin-bottom: 1rem;
+
+  .radioContainer {
+    display: flex;
+
+    .radioItem {
+      margin-right: 1rem;
+      border: 1px solid var(--primary);
+      border-radius: 10px;
+      padding: 2rem;
+    }
+
+    .radioSelected {
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      box-shadow: 0px 2px 0px var(--primaryLight);
+    }
+  }
+}
+
+.label {
+  margin: 1rem 0;
+}
