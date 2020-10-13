@@ -1,0 +1,41 @@
+.container {
+  .question {
+    margin: 1rem 0;
+  }
+
+  .codeSample {
+    margin: 1rem 0;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0;
+
+    .radioBox {
+      margin: 1rem 0;
+
+      .radioBtn {
+        display: flex;
+        align-items: center;
+        background-color: #232e61;
+        color: var(--white);
+        width: 150px;
+        min-height: 50px;
+        padding: 1rem;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .radioCorrect {
+        border: 2px solid #67f6cd;
+        color: #67f6cd;
+      }
+
+      .radioIncorrect {
+        border: 2px solid #ff5c5c;
+        color: #ff5c5c;
+      }
+    }
+  }
+}

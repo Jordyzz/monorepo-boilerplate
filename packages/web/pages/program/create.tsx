@@ -13,6 +13,7 @@ import { SelectOption } from "../../components/Forms/Select/Select.interface";
 import Select from "../../components/Forms/Select";
 import Chapter from "../../components/Forms/Chapter";
 import { ChapterType } from "../../components/Forms/Chapter/Chapter.interface";
+import { useCreateProgramMutation } from "@tango/controllers";
 
 const radioItems: Array<Item> = [
   { icon: undefined, label: "Javascript", value: "JS" },
@@ -41,92 +42,98 @@ const initialChapterState: ChapterType = {
   title: "",
   description: "",
   questions: [],
-  totalQuestions: 0,
 };
 
 const CreateProgram = () => {
+  const [createProgram] = useCreateProgramMutation();
   return (
     <Layout title="Create Program">
-      <h1 className={styles.title}>Create Program</h1>
-      <Formik
-        validateOnBlur={false}
-        validateOnChange={false}
-        onSubmit={async (values, { setErrors }) => {
-          console.log(values);
-        }}
-        initialValues={{
-          title: "",
-          description: "",
-          language: "",
-          duration: "",
-          level: "",
-          chapters: [] as ChapterType[],
-        }}
-      >
-        {({ handleSubmit, values, setFieldValue }) => (
-          <form onSubmit={handleSubmit}>
-            <InputField name="title" placeholder="Title" label="Title" />
-            <TextAreaField
-              name="description"
-              placeholder="Description"
-              label="Description"
-              className={styles.description}
-            />
-            <RadioGroupInput
-              name="language"
-              label="Programming Language"
-              items={radioItems}
-            />
-            <div className={styles.selectContainer}>
-              <Select
-                className={styles.select}
-                options={durations}
-                name="duration"
-                label="Duration"
-                placeholder="Duration"
+      <div className={styles.container}>
+        <h1 className={styles.title}>Create Program</h1>
+        <Formik
+          validateOnBlur={false}
+          validateOnChange={false}
+          onSubmit={async (values, { setErrors }) => {
+            console.log(values);
+
+            await createProgram({
+              variables: values,
+            });
+          }}
+          initialValues={{
+            title: "",
+            description: "",
+            language: "",
+            duration: "",
+            level: "",
+            chapters: [] as ChapterType[],
+          }}
+        >
+          {({ handleSubmit, values, setFieldValue }) => (
+            <form onSubmit={handleSubmit}>
+              <InputField name="title" placeholder="Title" label="Title" />
+              <TextAreaField
+                name="description"
+                placeholder="Description"
+                label="Description"
+                className={styles.description}
               />
-              <Select
-                className={styles.select}
-                options={levels}
-                name="level"
-                label="Level"
-                placeholder="Level"
+              <RadioGroupInput
+                name="language"
+                label="Programming Language"
+                items={radioItems}
               />
-            </div>
-            <div className={styles.chapterList}>
-              <div className={styles.chaptersHeader}>Chapters</div>
-              {values.chapters.map((chapter: ChapterType, i) => (
-                <Chapter
-                  key={chapter.title + i}
-                  {...chapter}
-                  fieldName="chapters"
-                  index={i}
+              <div className={styles.selectContainer}>
+                <Select
+                  className={styles.select}
+                  options={durations}
+                  name="duration"
+                  label="Duration"
+                  placeholder="Duration"
                 />
-              ))}
-              <div className={styles.emptyChapter}>
-                <Button
-                  className={styles.addChapter}
-                  onClick={() =>
-                    setFieldValue("chapters", [
-                      ...values.chapters,
-                      { ...initialChapterState },
-                    ])
-                  }
-                >
-                  Add Chapter
-                </Button>
+                <Select
+                  className={styles.select}
+                  options={levels}
+                  name="level"
+                  label="Level"
+                  placeholder="Level"
+                />
               </div>
-            </div>
-            <Button
-              type="submit"
-              onClick={handleSubmit}
-              className={styles.submitBtn}
-            >
-              Submit
-            </Button>
-          </form>
-        )}
-      </Formik>
+              <div className={styles.chapterList}>
+                <div className={styles.chaptersHeader}>Chapters</div>
+                {values.chapters.map((chapter: ChapterType, i) => (
+                  <Chapter
+                    key={chapter.title + i}
+                    {...chapter}
+                    fieldName="chapters"
+                    index={i}
+                  />
+                ))}
+                <div className={styles.emptyChapter}>
+                  <Button
+                    className={styles.addChapter}
+                    onClick={() =>
+                      setFieldValue("chapters", [
+                        ...values.chapters,
+                        { ...initialChapterState },
+                      ])
+                    }
+                  >
+                    Add Chapter
+                  </Button>
+                </div>
+              </div>
+              <Button
+                type="submit"
+                onClick={handleSubmit}
+                className={styles.submitBtn}
+              >
+                Submit
+              </Button>
+            </form>
+          )}
+        </Formik>
+      </div>
     </Layout>
   );
 };

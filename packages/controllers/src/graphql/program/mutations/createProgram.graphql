@@ -1,5 +1,19 @@
-mutation CreateProgram($title: String!, $programDetails: ProgramInput!) {
-  createProgram(title: $title, programDetails: $programDetails) {
+mutation CreateProgram(
+  $title: String!
+  $description: String!
+  $language: String!
+  $duration: String!
+  $level: String!
+  $chapters: [ChapterInput!]!
+) {
+  createProgram(
+    title: $title
+    description: $description
+    language: $language
+    duration: $duration
+    level: $level
+    chapters: $chapters
+  ) {
     id
   }
 }

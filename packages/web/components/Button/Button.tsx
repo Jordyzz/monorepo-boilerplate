@@ -4,13 +4,21 @@ import classNames from "classnames";
 import { ButtonProps } from "./Button.interface";
 import styles from "./Button.module.scss";
 
-function Button(props: ButtonProps) {
-  const { children, onClick, className, type = "button" } = props;
-
+function Button({
+  children,
+  onClick,
+  className,
+  type = "button",
+  disabled = false,
+}: ButtonProps) {
   return (
     <button
       type={type}
-      className={classNames(styles.button, className)}
+      className={classNames(
+        styles.button,
+        className,
+        disabled ? styles.disabled : ""
+      )}
       onClick={onClick}
     >
       {children}

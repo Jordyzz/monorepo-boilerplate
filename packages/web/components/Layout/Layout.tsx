@@ -10,10 +10,13 @@ import { LayoutProps } from "./Layout.interface";
 import { menuItems } from "./menuItems";
 import UserProfile from "./UserProfile";
 import MenuItem from "./MenuItem";
+import GlobalBI from "../GlobalBI";
 
 const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
   title = "CoderJam | Coding quizes",
+  isLoading,
+  subContent,
 }) => {
   const router = useRouter();
   const { data, loading } = useMeQuery({
@@ -27,6 +30,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         <meta charSet="utf-8" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      {isLoading && <GlobalBI />}
       <header className={styles.navContainer}>
         <nav className={styles.navbar}>
           <div className={styles.logo} />
@@ -51,6 +55,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       <div className={styles.content}>{children}</div>
       <div className={styles.subContent}>
         {!loading && <UserProfile userData={data} />}
+        {subContent}
       </div>
     </div>
   );

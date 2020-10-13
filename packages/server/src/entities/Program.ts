@@ -9,16 +9,72 @@ import { ObjectType, Field, ID, InputType } from "type-graphql";
 import { Ref } from "../types/Ref";
 import { User } from "./User";
 
-@ObjectType("ProgramType")
-@InputType("ProgramInput")
-export class ProgramDetails {
+@ObjectType("UpVotesType")
+@InputType("UpVotesInput")
+export class UpVotes {
+  @Field(() => String)
+  @Property({ ref: "User", required: true })
+  userId: Ref<User>;
+
   @Field()
   @Property()
-  type: string;
+  value: number;
+}
+
+@ObjectType("QuestionOptionsType")
+@InputType("QuestionOptionsInput")
+export class QuestionOptions {
+  @Field()
+  @Property()
+  a: string;
+
+  @Field()
+  @Property()
+  b: string;
+
+  @Field()
+  @Property()
+  c: string;
+
+  @Field()
+  @Property()
+  d: string;
+}
+
+@ObjectType("ChapterType")
+@InputType("ChapterInput")
+export class Chapter {
+  @Field()
+  @Property()
+  title: string;
 
   @Field()
   @Property()
   description: string;
+
+  @Field(() => [Question])
+  @Property({ type: () => [Question] })
+  questions: Question[];
+}
+
+@ObjectType("QuestionType")
+@InputType("QuestionInput")
+export class Question {
+  @Field()
+  @Property()
+  question: string;
+
+  @Field()
+  @Property()
+  correctAnswer: string;
+
+  @Field()
+  @Property()
+  codeSample: string;
+
+  @Field(() => QuestionOptions)
+  @Property({ type: () => QuestionOptions })
+  options: QuestionOptions;
 }
 
 @post<Program>("save", function (program) {
@@ -37,6 +93,22 @@ export class Program {
   @Property()
   title: string;
 
+  @Field()
+  @Property()
+  description: string;
+
+  @Field()
+  @Property()
+  duration: string;
+
+  @Field()
+  @Property()
+  language: string;
+
+  @Field()
+  @Property()
+  level: string;
+
   @Field(() => Date)
   @Property({
     type: mongoose.Schema.Types.Date,
@@ -53,9 +125,14 @@ export class Program {
   })
   updatedAt: Date;
 
-  @Field(() => ProgramDetails)
-  @Property({ ref: ProgramDetails, required: false })
-  programDetails: Ref<ProgramDetails | null>;
+  @Field(() => [Chapter])
+  @Property({ type: () => [Chapter] })
+  chapters: Chapter[];
+
+  @Field(() => [UpVotes])
+  @Property({ type: () => [UpVotes] })
+  upVotes: UpVotes[];
+
   _doc: any;
 }
 

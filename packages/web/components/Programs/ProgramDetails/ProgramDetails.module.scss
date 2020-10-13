@@ -1,0 +1,104 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  .title {
+    color: var(--black);
+    font-family: "SFProText-Bold";
+    font-size: 56px;
+    line-height: 4rem;
+    margin-bottom: 1rem;
+    word-wrap: break-word;
+  }
+
+  .description {
+    font-family: "SFProText-Regular";
+    font-size: 18px;
+    line-height: 2rem;
+    word-wrap: break-word;
+    margin: 1rem 0;
+  }
+
+  .chapterBox {
+    .chaptersHeader {
+      display: flex;
+      font-family: "SFProText-Regular";
+      font-size: 18px;
+      line-height: 2rem;
+      word-wrap: break-word;
+      margin: 1rem 0;
+      justify-content: space-between;
+    }
+
+    .chapter {
+      display: flex;
+      max-height: 96px;
+      margin-bottom: 1rem;
+      cursor: pointer;
+
+      &:last-child > .shapeContainer > .circle {
+        width: 10px;
+        height: 10px;
+        border: 0.25rem solid var(--white);
+        background-color: var(--black);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+        border-radius: 50%;
+      }
+
+      &:last-child > .shapeContainer > .line {
+        display: none;
+      }
+
+      .shapeContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 0.4rem;
+
+        .circle {
+          width: 10px;
+          height: 10px;
+          border: 0.25rem solid var(--black);
+          border-radius: 50%;
+          margin-bottom: 0.7rem;
+        }
+
+        .line {
+          width: 0.25rem;
+          height: 70px;
+          background-color: var(--black);
+          border-radius: 50px;
+        }
+      }
+
+      .chapterDetails {
+        overflow: hidden;
+
+        .chapterTitle {
+          color: var(--black);
+          font-size: 18px;
+          font-family: "SFProText-Semibold";
+          text-transform: capitalize;
+          margin: 0 0 1rem 1rem;
+          white-space: nowrap;
+        }
+        .chapterDescription {
+          margin-left: 1rem;
+        }
+      }
+    }
+  }
+
+  .itemsContainer {
+    margin: 1rem 0 2rem 0;
+  }
+
+  .btn {
+    width: 180px;
+    height: 60px;
+    font-size: 1rem;
+    font-family: "SFProText-Semibold";
+    margin: 3rem 0;
+  }
+}

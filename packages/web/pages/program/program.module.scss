@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .header {
+    color: var(--fontSecondary);
+    font-family: "SFProText-Bold";
+    font-size: 3rem;
+    line-height: 5rem;
+    margin-bottom: 2rem;
+  }
+
+  .chapterTitle {
+    font-family: "SFProText-Regular";
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .btnContainer {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: 2rem;
+
+    .btn {
+      margin-left: 1rem;
+      width: 140px;
+      height: 50px;
+      font-size: 1rem;
+      font-family: "SFProText-Regular";
+    }
+  }
+}

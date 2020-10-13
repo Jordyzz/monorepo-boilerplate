@@ -68,6 +68,7 @@ const QuestionInput = ({
       <div className={styles.optionsFields}>
         {optionIds.map((option) => (
           <InputField
+            key={option}
             name={option}
             label={`Answer ${option}:`}
             onChange={(e) =>

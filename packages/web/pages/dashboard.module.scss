@@ -1,0 +1,44 @@
+.container {
+  padding: 3rem;
+  height: 100%;
+  overflow: auto;
+
+  .header {
+    max-width: 60%;
+    color: var(--black);
+    font-family: "SFProText-Bold";
+    font-size: 56px;
+    line-height: 5rem;
+    margin-bottom: 2rem;
+  }
+
+  .subHeader {
+    font-family: "SFProText-Regular";
+    font-size: 18px;
+    max-width: 35%;
+    line-height: 2rem;
+  }
+
+  .programHeader {
+    color: var(--black);
+    font-family: "SFProText-Bold";
+    font-size: 32px;
+    line-height: 2rem;
+    margin: 4rem 0;
+  }
+
+  .browseButton {
+    width: 180px;
+    height: 70px;
+    font-size: 16px;
+    font-family: "SFProText-Semibold";
+    margin: 3rem 0;
+  }
+
+  .programContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 500px));
+    column-gap: 2rem;
+    row-gap: 2rem;
+  }
+}

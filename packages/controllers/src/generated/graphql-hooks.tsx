@@ -1,4 +1,3 @@
-import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -18,12 +17,18 @@ export type Query = {
   hello: Scalars['String'];
   me?: Maybe<User>;
   program: Program;
-  programs: Array<Program>;
+  programs: PaginatedPrograms;
 };
 
 
 export type QueryProgramArgs = {
-  programId: Scalars['Int'];
+  programId: Scalars['String'];
+};
+
+
+export type QueryProgramsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
 };
 
 export type User = {
@@ -40,16 +45,50 @@ export type Program = {
   id: Scalars['ID'];
   authorId: Scalars['String'];
   title: Scalars['String'];
+  description: Scalars['String'];
+  duration: Scalars['String'];
+  language: Scalars['String'];
+  level: Scalars['String'];
   createdAt: Scalars['DateTime'];
   updatedAt: Scalars['DateTime'];
-  programDetails: ProgramType;
+  chapters: Array<ChapterType>;
+  upVotes: Array<UpVotesType>;
 };
 
 
-export type ProgramType = {
-  __typename?: 'ProgramType';
-  type: Scalars['String'];
+export type ChapterType = {
+  __typename?: 'ChapterType';
+  title: Scalars['String'];
   description: Scalars['String'];
+  questions: Array<QuestionType>;
+};
+
+export type QuestionType = {
+  __typename?: 'QuestionType';
+  question: Scalars['String'];
+  correctAnswer: Scalars['String'];
+  codeSample: Scalars['String'];
+  options: QuestionOptionsType;
+};
+
+export type QuestionOptionsType = {
+  __typename?: 'QuestionOptionsType';
+  a: Scalars['String'];
+  b: Scalars['String'];
+  c: Scalars['String'];
+  d: Scalars['String'];
+};
+
+export type UpVotesType = {
+  __typename?: 'UpVotesType';
+  userId: Scalars['String'];
+  value: Scalars['Float'];
+};
+
+export type PaginatedPrograms = {
+  __typename?: 'PaginatedPrograms';
+  programs: Array<Program>;
+  hasMore: Scalars['Boolean'];
 };
 
 export type Mutation = {
@@ -60,6 +99,7 @@ export type Mutation = {
   forgotPassword: Scalars['Boolean'];
   confirmUser: Scalars['Boolean'];
   changePassword?: Maybe<User>;
+  vote: Scalars['Boolean'];
   deleteProgram: Scalars['Boolean'];
   createProgram: Program;
 };
@@ -91,13 +131,23 @@ export type MutationChangePasswordArgs = {
 };
 
 
+export type MutationVoteArgs = {
+  value: Scalars['Int'];
+  programId: Scalars['String'];
+};
+
+
 export type MutationDeleteProgramArgs = {
-  programId: Scalars['Int'];
+  programId: Scalars['String'];
 };
 
 
 export type MutationCreateProgramArgs = {
-  programDetails: ProgramInput;
+  chapters: Array<ChapterInput>;
+  level: Scalars['String'];
+  duration: Scalars['String'];
+  language: Scalars['String'];
+  description: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -113,14 +163,33 @@ export type ChangePasswordInput = {
   token: Scalars['String'];
 };
 
-export type ProgramInput = {
-  type: Scalars['String'];
+export type ChapterInput = {
+  title: Scalars['String'];
   description: Scalars['String'];
+  questions: Array<QuestionInput>;
+};
+
+export type QuestionInput = {
+  question: Scalars['String'];
+  correctAnswer: Scalars['String'];
+  codeSample: Scalars['String'];
+  options: QuestionOptionsInput;
+};
+
+export type QuestionOptionsInput = {
+  a: Scalars['String'];
+  b: Scalars['String'];
+  c: Scalars['String'];
+  d: Scalars['String'];
 };
 
 export type CreateProgramMutationVariables = Exact<{
   title: Scalars['String'];
-  programDetails: ProgramInput;
+  description: Scalars['String'];
+  language: Scalars['String'];
+  duration: Scalars['String'];
+  level: Scalars['String'];
+  chapters: Array<ChapterInput>;
 }>;
 
 
@@ -133,7 +202,7 @@ export type CreateProgramMutation = (
 );
 
 export type ProgramQueryVariables = Exact<{
-  programId: Scalars['Int'];
+  programId: Scalars['String'];
 }>;
 
 
@@ -141,27 +210,53 @@ export type ProgramQuery = (
   { __typename?: 'Query' }
   & { program: (
     { __typename?: 'Program' }
-    & Pick<Program, 'id' | 'title' | 'createdAt' | 'updatedAt'>
-    & { programDetails: (
-      { __typename?: 'ProgramType' }
-      & Pick<ProgramType, 'type' | 'description'>
-    ) }
+    & Pick<Program, 'id' | 'authorId' | 'title' | 'description' | 'duration' | 'language' | 'level' | 'createdAt' | 'updatedAt'>
+    & { chapters: Array<(
+      { __typename?: 'ChapterType' }
+      & Pick<ChapterType, 'title' | 'description'>
+      & { questions: Array<(
+        { __typename?: 'QuestionType' }
+        & Pick<QuestionType, 'question' | 'correctAnswer' | 'codeSample'>
+        & { options: (
+          { __typename?: 'QuestionOptionsType' }
+          & Pick<QuestionOptionsType, 'a' | 'b' | 'c' | 'd'>
+        ) }
+      )> }
+    )> }
   ) }
 );
 
-export type ProgramsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ProgramsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
 
 
 export type ProgramsQuery = (
   { __typename?: 'Query' }
-  & { programs: Array<(
-    { __typename?: 'Program' }
-    & Pick<Program, 'id' | 'authorId' | 'title' | 'updatedAt'>
-    & { programDetails: (
-      { __typename?: 'ProgramType' }
-      & Pick<ProgramType, 'type' | 'description'>
-    ) }
-  )> }
+  & { programs: (
+    { __typename?: 'PaginatedPrograms' }
+    & Pick<PaginatedPrograms, 'hasMore'>
+    & { programs: Array<(
+      { __typename?: 'Program' }
+      & Pick<Program, 'id' | 'authorId' | 'title' | 'description' | 'duration' | 'language' | 'level' | 'createdAt' | 'updatedAt'>
+      & { upVotes: Array<(
+        { __typename?: 'UpVotesType' }
+        & Pick<UpVotesType, 'userId' | 'value'>
+      )>, chapters: Array<(
+        { __typename?: 'ChapterType' }
+        & Pick<ChapterType, 'title' | 'description'>
+        & { questions: Array<(
+          { __typename?: 'QuestionType' }
+          & Pick<QuestionType, 'question' | 'correctAnswer' | 'codeSample'>
+          & { options: (
+            { __typename?: 'QuestionOptionsType' }
+            & Pick<QuestionOptionsType, 'a' | 'b' | 'c' | 'd'>
+          ) }
+        )> }
+      )> }
+    )> }
+  ) }
 );
 
 export type ChangePasswordMutationVariables = Exact<{
@@ -244,9 +339,9 @@ export type MeQuery = (
 );
 
 
-export const CreateProgramDocument = gql`
-    mutation CreateProgram($title: String!, $programDetails: ProgramInput!) {
-  createProgram(title: $title, programDetails: $programDetails) {
+export const CreateProgramDocument = Apollo.gql`
+    mutation CreateProgram($title: String!, $description: String!, $language: String!, $duration: String!, $level: String!, $chapters: [ChapterInput!]!) {
+  createProgram(title: $title, description: $description, language: $language, duration: $duration, level: $level, chapters: $chapters) {
     id
   }
 }
@@ -267,7 +362,11 @@ export type CreateProgramMutationFn = Apollo.MutationFunction<CreateProgramMutat
  * const [createProgramMutation, { data, loading, error }] = useCreateProgramMutation({
  *   variables: {
  *      title: // value for 'title'
- *      programDetails: // value for 'programDetails'
+ *      description: // value for 'description'
+ *      language: // value for 'language'
+ *      duration: // value for 'duration'
+ *      level: // value for 'level'
+ *      chapters: // value for 'chapters'
  *   },
  * });
  */
@@ -277,16 +376,32 @@ export function useCreateProgramMutation(baseOptions?: Apollo.MutationHookOption
 export type CreateProgramMutationHookResult = ReturnType<typeof useCreateProgramMutation>;
 export type CreateProgramMutationResult = Apollo.MutationResult<CreateProgramMutation>;
 export type CreateProgramMutationOptions = Apollo.BaseMutationOptions<CreateProgramMutation, CreateProgramMutationVariables>;
-export const ProgramDocument = gql`
-    query program($programId: Int!) {
+export const ProgramDocument = Apollo.gql`
+    query program($programId: String!) {
   program(programId: $programId) {
     id
+    authorId
     title
+    description
+    duration
+    language
+    level
     createdAt
     updatedAt
-    programDetails {
-      type
+    chapters {
+      title
       description
+      questions {
+        question
+        correctAnswer
+        codeSample
+        options {
+          a
+          b
+          c
+          d
+        }
+      }
     }
   }
 }
@@ -317,16 +432,39 @@ export function useProgramLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pr
 export type ProgramQueryHookResult = ReturnType<typeof useProgramQuery>;
 export type ProgramLazyQueryHookResult = ReturnType<typeof useProgramLazyQuery>;
 export type ProgramQueryResult = Apollo.QueryResult<ProgramQuery, ProgramQueryVariables>;
-export const ProgramsDocument = gql`
-    query programs {
-  programs {
-    id
-    authorId
-    title
-    updatedAt
-    programDetails {
-      type
+export const ProgramsDocument = Apollo.gql`
+    query programs($limit: Int!, $cursor: String) {
+  programs(limit: $limit, cursor: $cursor) {
+    hasMore
+    programs {
+      id
+      authorId
+      title
       description
+      duration
+      language
+      level
+      createdAt
+      updatedAt
+      upVotes {
+        userId
+        value
+      }
+      chapters {
+        title
+        description
+        questions {
+          question
+          correctAnswer
+          codeSample
+          options {
+            a
+            b
+            c
+            d
+          }
+        }
+      }
     }
   }
 }
@@ -344,6 +482,8 @@ export const ProgramsDocument = gql`
  * @example
  * const { data, loading, error } = useProgramsQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      cursor: // value for 'cursor'
  *   },
  * });
  */
@@ -356,7 +496,7 @@ export function useProgramsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<P
 export type ProgramsQueryHookResult = ReturnType<typeof useProgramsQuery>;
 export type ProgramsLazyQueryHookResult = ReturnType<typeof useProgramsLazyQuery>;
 export type ProgramsQueryResult = Apollo.QueryResult<ProgramsQuery, ProgramsQueryVariables>;
-export const ChangePasswordDocument = gql`
+export const ChangePasswordDocument = Apollo.gql`
     mutation ChangePassword($data: ChangePasswordInput!) {
   changePassword(data: $data) {
     id
@@ -392,7 +532,7 @@ export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptio
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
-export const ConfirmUserDocument = gql`
+export const ConfirmUserDocument = Apollo.gql`
     mutation confirmUser($token: String!) {
   confirmUser(token: $token)
 }
@@ -422,7 +562,7 @@ export function useConfirmUserMutation(baseOptions?: Apollo.MutationHookOptions<
 export type ConfirmUserMutationHookResult = ReturnType<typeof useConfirmUserMutation>;
 export type ConfirmUserMutationResult = Apollo.MutationResult<ConfirmUserMutation>;
 export type ConfirmUserMutationOptions = Apollo.BaseMutationOptions<ConfirmUserMutation, ConfirmUserMutationVariables>;
-export const ForgotPasswordDocument = gql`
+export const ForgotPasswordDocument = Apollo.gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email)
 }
@@ -452,7 +592,7 @@ export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptio
 export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
 export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
 export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
-export const LoginDocument = gql`
+export const LoginDocument = Apollo.gql`
     mutation Login($email: String!, $password: String!) {
   login(email: $email, password: $password) {
     id
@@ -489,7 +629,7 @@ export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginM
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
 export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
-export const LogoutDocument = gql`
+export const LogoutDocument = Apollo.gql`
     mutation Logout {
   logout
 }
@@ -518,7 +658,7 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
-export const RegisterDocument = gql`
+export const RegisterDocument = Apollo.gql`
     mutation Register($data: RegisterInput!) {
   register(data: $data) {
     id
@@ -554,7 +694,7 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
-export const MeDocument = gql`
+export const MeDocument = Apollo.gql`
     query me {
   me {
     id

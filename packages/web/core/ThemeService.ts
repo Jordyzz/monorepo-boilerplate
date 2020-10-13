@@ -6,10 +6,11 @@ class ThemeService {
       backgroundPrimary: "#F8FAFB",
       backgroundSecondary: "#FFF",
       secondary: "#000",
-      secondaryLight: "#FFE5F2",
+      secondaryLight: "#FFD4B4",
       fontPrimary: "#607489",
-      fontSecondary: "#C9C9CB",
+      fontSecondary: "#000",
       white: "#fff",
+      black: "#000",
     },
     dark: {
       primary: "#6266EA",
@@ -17,10 +18,11 @@ class ThemeService {
       backgroundPrimary: "#F8FAFB",
       backgroundSecondary: "#FFF",
       secondary: "#000",
-      secondaryLight: "#FFE5F2",
+      secondaryLight: "#FFD4B4",
       fontPrimary: "#607489",
-      fontSecondary: "#C9C9CB",
+      fontSecondary: "#000",
       white: "#fff",
+      black: "#000",
     },
     colors: {},
   };
@@ -35,6 +37,7 @@ class ThemeService {
     fontPrimary: null,
     fontSecondary: null,
     white: null,
+    black: null,
   };
 
   init(type?: keyof ThemeService["themes"]) {
@@ -54,6 +57,31 @@ class ThemeService {
 
   private setVariable(key: string, value: string | null) {
     document.documentElement.style.setProperty(`--${key}`, value);
+  }
+
+  private programPalletes = {
+    1: {
+      backgroundColor: "#F0EEFF",
+      primary: "#2B54E6",
+      secondary: "#6266EA",
+      tretiary: "#887EAE",
+    },
+    2: {
+      backgroundColor: "#ECF6FF",
+      primary: "#2B54E6",
+      secondary: "#6266EA",
+      tretiary: "#887EAE",
+    },
+    3: {
+      backgroundColor: "#6266EA",
+      primary: "#fff",
+      secondary: "#FFCEE6",
+      tretiary: "#fff",
+    },
+  };
+
+  public getProgramPallete(index: number) {
+    return this.programPalletes[index % 3 == 0 ? 3 : index % 2 == 0 ? 2 : 1];
   }
 }
 

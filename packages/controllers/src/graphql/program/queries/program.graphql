@@ -1,12 +1,28 @@
-query program($programId: Int!) {
+query program($programId: String!) {
   program(programId: $programId) {
     id
+    authorId
     title
+    description
+    duration
+    language
+    level
     createdAt
     updatedAt
-    programDetails {
-      type
+    chapters {
+      title
       description
+      questions {
+        question
+        correctAnswer
+        codeSample
+        options {
+          a
+          b
+          c
+          d
+        }
+      }
     }
   }
 }

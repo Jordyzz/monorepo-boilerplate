@@ -6,7 +6,7 @@ import { iconMap } from "./iconMap";
 import styles from "./Icon.module.scss";
 
 const Icon = ({ type, disabled = false, onClick, className }: IconProps) => {
-  const icon = iconMap[type];
+  const icon = iconMap[type!];
   return (
     <div
       dangerouslySetInnerHTML={{ __html: icon }}

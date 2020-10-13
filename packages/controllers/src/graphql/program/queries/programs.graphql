@@ -1,12 +1,35 @@
-query programs {
-  programs {
-    id
-    authorId
-    title
-    updatedAt
-    programDetails {
-      type
+query programs($limit: Int!, $cursor: String) {
+  programs(limit: $limit, cursor: $cursor) {
+    hasMore
+    programs {
+      id
+      authorId
+      title
       description
+      duration
+      language
+      level
+      createdAt
+      updatedAt
+      upVotes {
+        userId
+        value
+      }
+      chapters {
+        title
+        description
+        questions {
+          question
+          correctAnswer
+          codeSample
+          options {
+            a
+            b
+            c
+            d
+          }
+        }
+      }
     }
   }
 }

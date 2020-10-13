@@ -6,13 +6,12 @@ export interface ChapterProps extends ChapterType {
 export interface ChapterType {
   title: string;
   description: string;
-  totalQuestions: number;
-  questions: Array<QuestionType>;
+  questions: !Array<!QuestionType>;
 }
 
 export interface QuestionType {
   question: string;
-  codeSample?: string;
+  codeSample: string;
   options: QuestionOptions;
   correctAnswer: "a" | "b" | "c" | "d" | "";
 }
