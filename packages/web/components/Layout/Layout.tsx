@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import classNames from "classnames";
 
 import { useMeQuery } from "@tango/controllers";
 
@@ -53,7 +54,12 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         </nav>
       </header>
       <div className={styles.content}>{children}</div>
-      <div className={styles.subContent}>
+      <div
+        className={classNames(
+          styles.subContent,
+          !subContent ? styles.noSubContent : ""
+        )}
+      >
         {!loading && <UserProfile userData={data} />}
         {subContent}
       </div>

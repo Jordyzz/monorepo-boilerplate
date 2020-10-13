@@ -19,7 +19,7 @@ const Question = ({
   return (
     <div className={styles.container}>
       <div className={styles.question}>{question}</div>
-      <div className={styles.codeSample}>{codeSample}</div>
+      <code className={styles.codeSample}>{codeSample}</code>
       <div className={styles.options}>
         {answerIds.map((answer) => (
           <div key={answer} className={styles.radioBox}>

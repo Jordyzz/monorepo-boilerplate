@@ -26,7 +26,8 @@ const AboutPage = () => {
     data?.program.chapters[chapterCount].questions[questionCount];
 
   const isDone =
-    data!.program.chapters.length - 1 === chapterCount &&
+    data &&
+    data.program.chapters.length - 1 === chapterCount &&
     currentChapter!.questions.length - 1 === questionCount;
 
   const [selectedAnswer, setSelectedAnswer] = useState<

@@ -5,6 +5,7 @@
 
   .codeSample {
     margin: 1rem 0;
+    white-space: pre-wrap;
   }
 
   .options {
@@ -20,7 +21,6 @@
         align-items: center;
         background-color: #232e61;
         color: var(--white);
-        width: 150px;
         min-height: 50px;
         padding: 1rem;
         border-radius: 10px;
