@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -17,7 +18,7 @@ const fonts = {
 const AppStack = createStackNavigator<AppRoutes>();
 
 const client = new ApolloClient({
-  uri: "http://10.0.0.8:4000/graphql",
+  uri: "http://10.0.0.17:4000/graphql",
   credentials: "include",
   cache: new InMemoryCache(),
 });

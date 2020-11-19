@@ -33,7 +33,7 @@ const main = async () => {
   );
 
   const RedisStore = connectRedis(session);
-  const redis = new Redis();
+  const redis = new Redis(process.env.REDIS_URL || undefined);
   const sessionOption: session.SessionOptions = {
     store: new RedisStore({
       client: redis,
